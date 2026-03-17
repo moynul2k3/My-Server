@@ -1,0 +1,40 @@
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root2k3
+      MYSQL_DATABASE: moynul
+      MYSQL_USER: moynul
+      MYSQL_PASSWORD: moynul2k3
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: root2k3
+    ports:
+      - "3300:80"
+    depends_on:
+      - mariadb
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+
+volumes:
+  mariadb_data:
+  redis_data:
