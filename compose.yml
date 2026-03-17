@@ -34,17 +34,6 @@ services:
     volumes:
       - redis_data:/data
 
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - redis
-    restart: always
-
 
 volumes:
   mariadb_data:
