@@ -1,0 +1,46 @@
+networks:
+  server_net:
+    external: true
+
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root2k3
+      MYSQL_DATABASE: moynul
+      MYSQL_USER: moynul
+      MYSQL_PASSWORD: moynul2k3
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+    networks:
+      - server_net
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: root2k3
+      MYSQL_USER: moynul
+      MYSQL_PASSWORD: moynul2k3
+    ports:
+      - "3300:80"
+    depends_on:
+      - mariadb
+    networks:
+      - server_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks:
+      - server_net
+
+volumes:
+  redis_data:
