@@ -14,6 +14,8 @@ services:
       MYSQL_PASSWORD: moynul2k3
     volumes:
       - ./data/mariadb:/var/lib/mysql
+    ports:
+      - "3306:3306"
     networks:
       - server_net
 
